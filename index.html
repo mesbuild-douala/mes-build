@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MES-BUILD - Douala</title>
+<style>
+*{box-sizing:border-box;font-family:Arial}body{margin:0;background:#f1f5f9;color:#111}
+header{background:#0f172a;color:#fff;padding:16px;text-align:center}
+header h1{margin:0;font-size:22px}header p{margin:4px;opacity:.8;font-size:13px}
+nav{display:flex;gap:8px;padding:10px;overflow:auto;background:#fff;position:sticky;top:0}
+nav button{border:0;background:#e2e8f0;padding:10px 14px;border-radius:20px;white-space:nowrap;font-weight:bold}
+nav button.active{background:#0f172a;color:#fff}
+.card{background:#fff;margin:12px;padding:16px;border-radius:14px;box-shadow:0 2px 8px #0001}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#f8fafc;padding:12px;border-radius:12px;text-align:center}
+.stat b{font-size:20px;display:block}
+input,select,textarea{width:100%;padding:12px;margin:6px 0;border:1px solid #ddd;border-radius:10px}
+.btn{background:#16a34a;color:#fff;border:0;padding:12px;width:100%;border-radius:10px;font-weight:bold;font-size:16px}
+.item{border-bottom:1px solid #eee;padding:10px 0;display:flex;justify-content:space-between}
+.small{font-size:12px;color:#666}
+.badge{background:#dcfce7;color:#166534;padding:3px 8px;border-radius:20px;font-size:11px}
+</style>
+</head>
+<body>
+<header><h1>🏗️ MES-BUILD</h1><p>Gestion Chantier - Douala, Cameroun</p></header>
+<nav>
+<button class="active" onclick="show('dash',this)">📊 Tableau</button>
+<button onclick="show('devis',this)">🧾 Devis</button>
+<button onclick="show('clients',this)">👥 Clients</button>
+<button onclick="show('chantier',this)">🏠 Chantiers</button>
+</nav>
+
+<div id="dash" class="page">
+<div class="card"><h3>Bienvenue Patron 👋</h3><p class="small">Ton application est en ligne.</p>
+<div class="grid">
+<div class="stat"><b id="tClients">0</b>Clients</div>
+<div class="stat"><b id="tDevis">0</b>Devis</div>
+<div class="stat"><b id="tCA">0 FCFA</b>Chiffre</div>
+<div class="stat"><b>3</b>Chantiers</div>
+</div></div>
+<div class="card"><h3>Chantiers en cours</h3>
+<div class="item"><span>🏠 Villa Bonanjo <br><span class="small">Fondation - 65%</span></span><span class="badge">En cours</span></div>
+<div class="item"><span>🏢 R+2 Akwa <br><span class="small">Élévation - 30%</span></span><span class="badge">En cours</span></div>
+</div></div>
+
+<div id="devis" class="page" style="display:none">
+<div class="card"><h3>Nouveau Devis</h3>
+<input id="nom" placeholder="Nom du client">
+<input id="projet" placeholder="Projet ex: Villa R+1">
+<input id="montant" type="number" placeholder="Montant FCFA">
+<button class="btn" onclick="addDevis()">+ Créer Devis</button>
+</div><div class="card" id="listeDevis"><h3>Mes Devis</h3><p class="small">Aucun devis pour l'instant</p></div></div>
+
+<div id="clients" class="page" style="display:none">
+<div class="card"><h3>Nouveau Client</h3>
+<input id="cNom" placeholder="Nom complet">
+<input id="cTel" placeholder="Téléphone ex: 690 00 00 00">
+<input id="cQuartier" placeholder="Quartier ex: Deïdo">
+<button class="btn" onclick="addClient()">+ Ajouter Client</button>
+</div><div class="card" id="listeClients"><h3>Mes Clients</h3></div></div>
+
+<div id="chantier" class="page" style="display:none">
+<div class="card"><h3>Suivi Chantier</h3>
+<p><b>Villa Bonanjo</b> - Budget: 25.000.000 FCFA</p>
+<p>Progression: 65%</p>
+<div style="background:#eee;height:12px;border-radius:20px"><div style="background:#16a34a;width:65%;height:12px;border-radius:20px"></div></div>
+<p class="small" style="margin-top:10px">Prochaine étape: Coulage dalle - Jeudi</p>
+<button class="btn" onclick="alert('Photo ajoutée ! Prends une photo du chantier')">📸 Ajouter Photo Chantier</button>
+</div></div>
+
+<script>
+let clients=[], devis=[], total=0;
+function show(id,btn){document.querySelectorAll('.page').forEach(p=>p.style.display='none');document.getElementById(id).style.display='block';document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}
+function addClient(){let n=document.getElementById('cNom').value,t=document.getElementById('cTel').value,q=document.getElementById('cQuartier').value;if(!n)return alert('Mets le nom');clients.push(n);document.getElementById('listeClients').innerHTML+='<div class=item><span>'+n+'<br><span class=small>'+q+' - '+t+'</span></span><span class=badge>Client</span></div>';document.getElementById('tClients').innerText=clients.length;alert('Client ajouté ✅')}
+function addDevis(){let n=document.getElementById('nom').value,p=document.getElementById('projet').value,m=Number(document.getElementById('montant').value);if(!n||!m)return alert('Remplis tout');devis.push(m);total+=m;document.getElementById('listeDevis').innerHTML+='<div class=item><span>'+p+' - '+n+'<br><span class=small>'+m.toLocaleString()+' FCFA</span></span><span class=badge>Devis</span></div>';document.getElementById('tDevis').innerText=devis.length;document.getElementById('tCA').innerText=total.toLocaleString()+' FCFA';alert('Devis créé ✅')}
+</script>
+</body>
+</html>
