@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MES BUILD - Devis + Plan 2D</title>
+<style>
+body{font-family:Arial;margin:0;background:#FFF8E1}
+header{background:#FFC107;padding:20px;text-align:center}
+h1{margin:0;font-size:28px} .sub{font-weight:bold}
+.box{background:white;margin:15px;padding:15px;border-radius:12px;box-shadow:0 2px 8px #0002}
+input,select{width:100%;padding:12px;margin:6px 0;border:1px solid #ccc;border-radius:8px;font-size:16px}
+button{width:100%;padding:14px;background:#111;color:#FFC107;border:0;border-radius:10px;font-size:18px;font-weight:bold}
+.result{font-size:22px;font-weight:bold;text-align:center;margin-top:10px}
+canvas{width:100%;background:#eaf6ff;border:2px solid #111;border-radius:10px}
+</style>
+</head>
+<body>
+<header><h1>🏗️ MES BUILD</h1><div class="sub">Devis + Plan 2D - Cameroun</div><div>Douala • Yaoundé • Bafoussam • Garoua • Bamenda</div></header>
+
+<div class="box"><h2>1. Devis Instantané</h2>
+<label>Ville</label>
+<select id="ville"><option value="85000">Douala - 85 000 FCFA/m²</option><option value="80000">Yaoundé - 80 000 FCFA/m²</option><option value="70000">Bafoussam - 70 000 FCFA/m²</option><option value="65000">Garoua - 65 000 FCFA/m²</option><option value="68000">Bamenda - 68 000 FCFA/m²</option></select>
+<label>Surface en m²</label><input id="surf" type="number" value="100">
+<label>Chambres</label><input id="ch" type="number" value="3">
+<button onclick="calcul()">CALCULER MON DEVIS</button>
+<div class="result" id="res">Entre ta surface et calcule</div></div>
+
+<div class="box"><h2>2. Plan 2D</h2>
+<label>Longueur (m)</label><input id="L" type="number" value="12">
+<label>Largeur (m)</label><input id="l" type="number" value="10">
+<button onclick="plan()">DESSINER MON PLAN</button><br><br>
+<canvas id="c" width="360" height="260"></canvas>
+<div id="info" style="text-align:center;font-weight:bold"></div></div>
+
+<div class="box" style="text-align:center"><b>WhatsApp MES BUILD</b><br>Commande ton devis complet<br><a href="https://wa.me/237690000000">Clique ici WhatsApp</a></div>
+
+<script>
+function calcul(){
+let p=+document.getElementById('ville').value;
+let s=+document.getElementById('surf').value;
+let ch=+document.getElementById('ch').value;
+let total=p*s + ch*350000;
+document.getElementById('res').innerHTML="TOTAL ESTIMÉ : "+total.toLocaleString()+" FCFA";
+}
+function plan(){
+let L=+document.getElementById('L').value, l=+document.getElementById('l').value;
+let cv=document.getElementById('c'), x=cv.getContext('2d');
+x.clearRect(0,0,360,260); x.strokeStyle='#111'; x.lineWidth=3;
+x.strokeRect(20,20,320,200);
+x.font='bold 16px Arial'; x.fillText('SALON',30,50);
+x.strokeRect(20,20,160,100); x.fillText('CH 1',210,50);
+x.strokeRect(180,20,160,100); x.fillText('CH 2',30,170);
+x.strokeRect(20,120,160,100); x.fillText('CUISINE',210,170);
+x.strokeRect(180,120,160,100);
+document.getElementById('info').innerHTML=L+"m x "+l+"m = "+(L*l)+" m²";
+}
+plan();
+</script>
+</body>
+</html>
